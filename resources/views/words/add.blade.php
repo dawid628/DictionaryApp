@@ -15,6 +15,7 @@
         <div class="form-group mt-2 ">
             <label for="tag">Tagi</label>
             <input id="tag" name="tag" class="form-control" placeholder="Podaj taga i naciśnij enter" maxlength="10">
+            <p id="tags-error" class="text-danger d-none">Maksymalnie 6 tagów!</p>
             <div id="tags-container"></div>   
         </div>
         <div class="form-group">

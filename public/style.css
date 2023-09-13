@@ -26,3 +26,7 @@
   cursor: pointer;
   font-size: 16px;
 }
+
+#tags-error {
+  font-size: 12px;
+}
