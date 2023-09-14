@@ -46,6 +46,7 @@ function handleTagInput() {
                 tagsContainer.append(tagContainer);
                 tagInput.val("");
             } else {
+                tagsError.text("Maksymalna dozwolona ilość tagów to " + maxTags);
                 tagsError.removeClass("d-none");
             }
         }

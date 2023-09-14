@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\WordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('words.index');
-});
+})->name('index');
 
 Route::get('/add', function () {
     return view('words.add');
 });
+
+Route::post('/store', [WordController::class, 'store'])->name('store-word');
