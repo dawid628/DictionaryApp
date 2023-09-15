@@ -1,19 +1,26 @@
 @extends('words.layout')
+@section('title', 'Słownik - wyświetlanie')
 @section('content')
-<div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-    <div style="margin-top: 33vh; justify-content-center">
+<div class="container mx-auto mt-24">
+    <div class="flex justify-center">
         @if(session('success'))
             <div class="alert alert-success p-3 m-2" role="alert">
                 {{ session('success') }}
             </div>
         @endif
-        <div class="align-items-center mb-3">
-            <a href="{{ route('create') }}" class="btn btn-primary m-1">Dodaj słowo</a>
-            <input type="text" id="filterInput" class="form-control" placeholder="Wyszukaj słowo lub tag">
-            @if(Auth::check())
-            elo
-            @endif
+    </div>
+    <div class="flex mb-1">
+        <a href="{{ route('create') }}" class="btn btn-primary m-1">Dodaj słowo</a>
+    </div>
+    <div class="flex items-center mb-1">
+        <input type="text" id="filterInput" class="form-control w-full" placeholder="Wyszukaj słowo lub tag">
+    </div>
+    @if(Auth::check())
+        <div class="flex mb-3">
+            <input type="checkbox" id="mineInput" data-user="{{ Auth::id() }}"/> <span class="text-white m-1">Moje słowa</span>
         </div>
+    @endif
+    <div id="tableContainer" class="overflow-auto" style="max-height: 33vh;">
         <table class="table text-center" id="wordsTable">
             <thead>
                 <tr>
@@ -29,6 +36,8 @@
         </table>
     </div>
 </div>
+
+
 <script>
     var wordsData = @json($words);
     fillTable(wordsData);

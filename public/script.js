@@ -1,9 +1,9 @@
 $(document).ready(function() {
     handleTagInput();
 
-    $('#filterInput').on('input', filterWords);
+    $('#filterInput').on('input', filterWordsByInput);
+    $('#mineInput').on('change', filterWordsByInput);
 });
-
 function handleTagInput() {
     const tagInput = $("#tag");
     const tagsContainer = $("#tags-container");
@@ -17,11 +17,12 @@ function handleTagInput() {
         if (e.key == "Enter" && tagInput.val().trim() != "") {
             e.preventDefault();
 
-            if (tags.length < maxTags) {
+            let tag = tagInput.val().toLowerCase();
+            tag = tag.replace(/[ '",.:;\-]/g, '');
+
+            if (tags.length < maxTags && !tags.includes(tag)) {
                 tagsError.addClass("d-none");
 
-                let tag = tagInput.val().toLowerCase();
-                tag = tag.replace(/[ '",.:;\-]/g, '');
                 tags.push(tag);
                 tagsInput.val(tags.join(","));
 
@@ -48,7 +49,11 @@ function handleTagInput() {
                 tagsContainer.append(tagContainer);
                 tagInput.val("");
             } else {
-                tagsError.text("Maksymalna dozwolona ilość tagów to " + maxTags);
+                if (tags.includes(tag)) {
+                    tagsError.text("Ten tag już istnieje.");
+                } else {
+                    tagsError.text("Maksymalna dozwolona ilość tagów to " + maxTags);
+                }
                 tagsError.removeClass("d-none");
             }
         }
@@ -113,14 +118,27 @@ function formatTags(tags) {
     return formattedTags;
 }
 
-function filterWords() {
-    var inputText = $(this).val().toLowerCase();
+function filterWordsByInput() {
+    console.log('weszlo')
+    var inputText = $("#filterInput").val().toLowerCase();
     var filteredWords = wordsData.filter(function (word) {
         return (
             word.name.toLowerCase().includes(inputText) ||
             (word.tags && word.tags.join(', ').toLowerCase().includes(inputText))
         );
     });
-
+    filteredWords = filterByCheckbox(filteredWords);
     fillTable(filteredWords);
+}
+
+function filterByCheckbox(words) {
+    var isMineChecked = $('#mineInput').prop('checked');
+    var userId = $('#mineInput').data('user');
+
+    if (isMineChecked) {
+            return words.filter(function (word) {
+            return word.user_id == userId;
+        });
+    }
+    return words;
 }

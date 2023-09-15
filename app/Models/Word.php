@@ -40,6 +40,7 @@ class Word extends Model
             $tags,
             $word->active,
             isset($word->definition) ? $word->definition->body : "",
+            $word->user_id,
             $word->created_at,
             $word->updated_at
         );

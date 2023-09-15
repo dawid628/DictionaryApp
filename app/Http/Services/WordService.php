@@ -5,7 +5,7 @@ namespace App\Http\Services;
 use App\Models\Dtos\WordDTO;
 use App\Models\Word;
 use App\Http\Services\Interfaces\IWordService;
-
+use Illuminate\Support\Facades\Auth;
 
 class WordService implements IWordService
 {
@@ -14,6 +14,7 @@ class WordService implements IWordService
     {
         $word = new Word();
         $word = $word->mapFromDto($dto);
+        $word->user_id = Auth::id();
         
         try {
             $word->save();
