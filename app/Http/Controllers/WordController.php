@@ -54,7 +54,7 @@ class WordController extends Controller implements IWordController
     public function edit(int $id)
     {
         $word = Word::find($id);
-        if($this->wordService->isUpdatePossible($id, Auth::id())) {
+        if($this->wordService->isAccessPossible($id, Auth::id())) {
             $word = Word::mapToDto($word);
             return view('words.edit', ['word' => $word]);
         }
