@@ -31,3 +31,13 @@
 #tags-error {
   font-size: 12px;
 }
+
+input.form-control, textarea.form-control, input.form-control:focus, textarea.form-control:focus {
+  background-color: rgb(48, 53, 66);
+  border: 1px solid black;
+  color: #fff;
+}
+
+.table {
+  color: #fff;
+}

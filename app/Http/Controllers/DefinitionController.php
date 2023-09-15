@@ -16,6 +16,7 @@ class DefinitionController extends Controller implements IDefinitionController
     {
         $this->definitionService = new DefinitionService();
     }
+    
     public function store(int $id, string $definition)
     {
         $dto = new DefinitionDTO(

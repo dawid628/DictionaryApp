@@ -22,4 +22,14 @@ class WordService implements IWordService
             throw new \PDOException ($e->getMessage());
         }
     }
+
+    public function getAll()
+    {
+        $words = Word::with('definition')->get();
+        $wordDtos = [];
+        foreach($words as $word) {
+            $wordDtos[] = Word::mapToDto($word);
+        }
+        return $wordDtos;
+    }
 }

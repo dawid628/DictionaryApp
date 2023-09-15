@@ -25,21 +25,23 @@ class WordController extends Controller implements IWordController
 
     public function index()
     {
-        //
+        $words = $this->wordService->getAll();
+        return  view('words.index', ['words' => $words]);
     }
 
     public function create()
     {
-        //
+        return view('words.add');
     }
 
     public function store(WordRequest $request)
     {
         $successMessage = "Słowo i definicja zostały zapisane pomyślnie.";
-
+        $tags = $this->convertTagsToJson($request->tags);
+        
         $dto = new WordDTO(
             $request->word,
-            $this->convertTagsToJson($request->tags)
+            $tags
         );
         $id = $this->wordService->create($dto);
         
@@ -66,5 +68,7 @@ class WordController extends Controller implements IWordController
     {
         $tagsArray = explode(',', $tags);
         $tagsJson = $tagsArray[0] == "" ? null : json_encode($tagsArray);
+
+        return $tagsJson;
     }
 }

@@ -7,4 +7,5 @@ use App\Models\Dtos\WordDTO;
 interface IWordService
 {
     public function create(WordDTO $dto);
+    public function getAll();
 }

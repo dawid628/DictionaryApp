@@ -13,12 +13,8 @@ use App\Http\Controllers\WordController;
 |
 */
 
-Route::get('/', function () {
-    return view('words.index');
-})->name('index');
+Route::get('/', [WordController::class, 'index'])->name('index');
 
-Route::get('/add', function () {
-    return view('words.add');
-});
+Route::get('/add', [WordController::class, 'create'])->name('create');
 
 Route::post('/store', [WordController::class, 'store'])->name('store-word');

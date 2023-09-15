@@ -1,5 +1,7 @@
 $(document).ready(function() {
     handleTagInput();
+
+    $('#filterInput').on('input', filterWords);
 });
 
 function handleTagInput() {
@@ -18,8 +20,8 @@ function handleTagInput() {
             if (tags.length < maxTags) {
                 tagsError.addClass("d-none");
 
-                let tag = tagInput.val();
-                tag = tag.replace(/[ ,.:;\-]/g, '');
+                let tag = tagInput.val().toLowerCase();
+                tag = tag.replace(/[ '",.:;\-]/g, '');
                 tags.push(tag);
                 tagsInput.val(tags.join(","));
 
@@ -51,4 +53,53 @@ function handleTagInput() {
             }
         }
     });
+}
+
+function formatDateTime(dateTime) {
+    var date = new Date(dateTime);
+    var year = date.getFullYear();
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    return year + '-' + month + '-' + day;
+}
+
+function fillTable(data) {
+    var tableBody = $('#wordsTable tbody');
+    tableBody.empty();
+
+    $.each(data, function (index, word) {
+        var row = $('<tr>');
+        row.append('<td>' + word.name + '</td>');
+        
+        if (word.tags && word.tags.length > 0) {
+            var tagsCell = $('<td>');
+            var tagsText = word.tags.join(', ');
+            var formattedTags = '';
+
+            for (var i = 0; i < word.tags.length; i += 3) {
+                var tagChunk = word.tags.slice(i, i + 3).join(', ');
+                formattedTags += tagChunk + ',<br>';
+            }
+
+            tagsCell.html(formattedTags);
+            row.append(tagsCell);
+        } else {
+            row.append('<td class="text-danger">brak</td>');
+        }
+        
+        row.append('<td>' + formatDateTime(word.created_at) + '</td>');
+        tableBody.append(row);
+    });
+}
+
+function filterWords() {
+    var inputText = $(this).val().toLowerCase();
+    var filteredWords = wordsData.filter(function (word) {
+        return (
+            word.name.toLowerCase().includes(inputText) ||
+            (word.tags && word.tags.join(', ').toLowerCase().includes(inputText))
+        );
+    });
+
+    fillTable(filteredWords);
 }

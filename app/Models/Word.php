@@ -26,4 +26,22 @@ class Word extends Model
         
         return $word;
     }
+
+    public static function mapToDto(Word $word)
+    {
+        $tags = $word->tags;
+    
+        if (!is_null($tags)) {
+            $tags = json_decode($tags);
+        }
+    
+        return new WordDTO(
+            $word->name,
+            $tags,
+            $word->active,
+            isset($word->definition) ? $word->definition->body : "",
+            $word->created_at,
+            $word->updated_at
+        );
+    }
 }
