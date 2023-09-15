@@ -13,15 +13,22 @@ class WordService implements IWordService
     public function create(WordDTO $dto)
     {
         $word = new Word();
-        $word = $word->mapFromDto($dto);
+        $word = Word::mapFromDto($dto);
         $word->user_id = Auth::id();
         
-        try {
+        $word->save();
+        return $word->id;
+    }
+
+    public function update(WordDTO $dto)
+    {
+        $word = Word::find($dto->id);
+        if($word) {
+            $word->name = $dto->name;
+            $word->tags = $dto->tags;
+            
             $word->save();
-            return $word->id;
-        } catch(\PDOException  $e) {
-            throw new \PDOException ($e->getMessage());
-        }
+        };
     }
 
     public function getAll()
@@ -32,5 +39,19 @@ class WordService implements IWordService
             $wordDtos[] = Word::mapToDto($word);
         }
         return $wordDtos;
+    }
+
+    public function isAccessPossible(int $wordId, int $userId)
+    {
+        $word = Word::find($wordId);
+        if($word && $word->user_id == $userId) {
+            return true;
+        }
+        return false;
+    }
+
+    public function delete(int $id)
+    {
+        Word::destroy($id);
     }
 }

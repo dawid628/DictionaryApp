@@ -10,6 +10,7 @@ use App\Models\Word;
 use App\Models\Dtos\DefinitionDTO;
 use App\Http\Services\WordService;
 use App\Http\Controllers\DefinitionController;
+use Illuminate\Support\Facades\Auth;
 
 class WordController extends Controller implements IWordController
 {
@@ -40,6 +41,7 @@ class WordController extends Controller implements IWordController
         $tags = $this->convertTagsToJson($request->tags);
         
         $dto = new WordDTO(
+            null,
             $request->word,
             $tags
         );
@@ -49,19 +51,47 @@ class WordController extends Controller implements IWordController
         return redirect()->route('index')->with('success', $successMessage);
     }
 
-    public function edit()
+    public function edit(int $id)
     {
-        //
+        $word = Word::find($id);
+        if($this->wordService->isUpdatePossible($id, Auth::id())) {
+            $word = Word::mapToDto($word);
+            return view('words.edit', ['word' => $word]);
+        }
+        $errorMessage = "Próbujesz edytować słowo, które nie jesteś autorem!";
+        return redirect()->route('index')->with('error', $errorMessage);
     }
 
-    public function update(Request $request)
+    public function update(WordRequest $request)
     {
-        //
+        if($this->wordService->isAccessPossible($request->id, Auth::id())) {
+            $successMessage = "Edycja danych pomyślna.";
+            $tags = $this->convertTagsToJson($request->tags);
+
+            $dto = new WordDTO(
+                $request->id,
+                $request->word,
+                $tags,
+            );
+
+            $this->wordService->update($dto);
+            $this->definitionController->update($request->id, $request->definition);
+            return redirect()->route('index')->with('success', $successMessage);
+        }
+        $errorMessage = "Próbujesz edytować słowo, które nie jesteś autorem!";
+        return redirect()->route('index')->with('error', $errorMessage);
     }
 
     public function destroy(int $id)
     {
-        //
+        if($this->wordService->isAccessPossible($id, Auth::id())) {
+            $successMessage = "Usuwanie słowa pomyślne.";
+
+            $this->wordService->delete($id);
+            return redirect()->route('index')->with('success', $successMessage);
+        }
+        $errorMessage = "Próbujesz usunąć słowo, którego nie jesteś autorem!";
+        return redirect()->route('index')->with('error', $errorMessage);
     }
 
     private function convertTagsToJson(?string $tags)

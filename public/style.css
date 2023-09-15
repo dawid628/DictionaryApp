@@ -57,3 +57,7 @@ input.form-control, textarea.form-control, input.form-check-input,input.form-con
 .brand:hover {
   color: #5d9bf8;
 }
+
+input.form-control:disabled {
+  background-color: rgb(37, 41, 51);
+}

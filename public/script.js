@@ -70,6 +70,7 @@ function formatDateTime(dateTime) {
 
 function fillTable(data) {
     var tableBody = $('#wordsTable tbody');
+    var userId = checkCurrentUserId();
     tableBody.empty();
 
     $.each(data, function (index, word) {
@@ -87,6 +88,19 @@ function fillTable(data) {
         }
 
         row.append('<td>' + formatDateTime(word.created_at) + '</td>');
+        // Akcje jezeli user jest autorem
+        if (userId != null) {
+    if (word.user_id == userId) {
+        var editLink = '<a href="/edit/' + word.id + '">Edytuj</a>';
+        var deleteLink = '<br><a href="/destroy/' + word.id + '">Usuń</a>';
+        row.append('<td>' + editLink + deleteLink + '</td>');
+    } else {
+        row.append('<td>' + "-" + '</td>');
+    }
+} else {
+    row.append('<td>' + "-" + '</td>');
+}
+        
         tableBody.append(row);
     });
 }
@@ -141,4 +155,13 @@ function filterByCheckbox(words) {
         });
     }
     return words;
+}
+
+function checkCurrentUserId() {
+    var mineInput = $("#mineInput");
+
+    if(mineInput != undefined) {
+        return mineInput.data("user");
+    }
+    return null;
 }

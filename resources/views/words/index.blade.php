@@ -2,10 +2,15 @@
 @section('title', 'Słownik - wyświetlanie')
 @section('content')
 <div class="container mx-auto mt-24">
-    <div class="flex justify-center">
+    <div class="">
         @if(session('success'))
-            <div class="alert alert-success p-3 m-2" role="alert">
+            <div class="alert alert-success mb-1" role="alert">
                 {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger mb-1" role="alert">
+                {{ session('error') }}
             </div>
         @endif
     </div>
@@ -28,6 +33,7 @@
                     <th>Definicja</th>
                     <th>Tagi</th>
                     <th>Data utworzenia</th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>

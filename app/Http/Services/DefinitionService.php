@@ -15,10 +15,16 @@ class DefinitionService implements IDefinitionService
         $definition = new Definition();
         $definition = $definition->mapFromDto($dto);
         
-        try {
+        $definition->save();
+    }
+
+    public function update(DefinitionDTO $dto)
+    {
+        $definition = Definition::where('word_id', $dto->word_id)->first();
+        
+        if($definition) {
+            $definition->body = $dto->body;
             $definition->save();
-        } catch(\PDOException  $e) {
-            throw new \PDOException ($e->getMessage());
         }
     }
 }

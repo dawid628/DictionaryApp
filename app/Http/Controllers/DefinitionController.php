@@ -17,10 +17,10 @@ class DefinitionController extends Controller implements IDefinitionController
         $this->definitionService = new DefinitionService();
     }
     
-    public function store(int $id, string $definition)
+    public function store(int $id, string $body)
     {
         $dto = new DefinitionDTO(
-            $definition,
+            $body,
             $id
         );
 
@@ -29,6 +29,10 @@ class DefinitionController extends Controller implements IDefinitionController
 
     public function update(int $id, string $body)
     {
-        //
+        $dto = new DefinitionDTO(
+            $body,
+            $id
+        );
+        $this->definitionService->update($dto);
     }
 }

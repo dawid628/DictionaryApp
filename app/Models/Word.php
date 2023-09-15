@@ -15,10 +15,12 @@ class Word extends Model
         return $this->hasOne(Definition::class);
     }
 
-    public function mapFromDto(WordDTO $dto)
+    public static function mapFromDto(WordDTO $dto)
     {
         $word = new Word();
-        
+        if($dto->id != null) {
+            $word->id = $dto->id;
+        }
         $word->name = $dto->name;
         if($dto->tags != null) {
             $word->tags = $dto->tags;
@@ -36,6 +38,7 @@ class Word extends Model
         }
     
         return new WordDTO(
+            $word->id,
             $word->name,
             $tags,
             $word->active,

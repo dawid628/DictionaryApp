@@ -4,6 +4,7 @@ namespace App\Models\Dtos;
 
 class WordDTO
 {
+    public $id;
     public $name;
     public $tags;
     public $active;
@@ -12,8 +13,9 @@ class WordDTO
     public $created_at;
     public $updated_at;
 
-    public function __construct($name, $tags, $active = null, $definition = null, $user_id = null, $created_at = null, $updated_at = null)
+    public function __construct($id = null, $name, $tags, $active = null, $definition = null, $user_id = null, $created_at = null, $updated_at = null)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->tags = $tags;
         $this->active = $active;

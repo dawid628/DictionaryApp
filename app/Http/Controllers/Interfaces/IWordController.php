@@ -10,7 +10,7 @@ interface IWordController
     public function index();
     public function create();
     public function store(WordRequest $request);
-    public function edit();
-    public function update(Request $request);
+    public function edit(int $id);
+    public function update(WordRequest $request);
     public function destroy(int $id);
 }
