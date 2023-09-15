@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Nazwa</th>
+                    <th>Definicja</th>
                     <th>Tagi</th>
                     <th>Data utworzenia</th>
                 </tr>

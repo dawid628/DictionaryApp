@@ -70,23 +70,25 @@ function fillTable(data) {
     $.each(data, function (index, word) {
         var row = $('<tr>');
         row.append('<td>' + word.name + '</td>');
-        
+
+        var definitionCell = $('<td>').text(word.definition);
+        row.append(definitionCell);
+
         if (word.tags && word.tags.length > 0) {
             var tagsCell = $('<td>');
-            var tagsText = word.tags.join(', ');
             var formattedTags = '';
 
             for (var i = 0; i < word.tags.length; i += 3) {
                 var tagChunk = word.tags.slice(i, i + 3).join(', ');
-                formattedTags += tagChunk + ',<br>';
+                formattedTags += tagChunk + ', ';
             }
 
-            tagsCell.html(formattedTags);
+            tagsCell.text(formattedTags.slice(0, -2));
             row.append(tagsCell);
         } else {
             row.append('<td class="text-danger">brak</td>');
         }
-        
+
         row.append('<td>' + formatDateTime(word.created_at) + '</td>');
         tableBody.append(row);
     });
