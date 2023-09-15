@@ -32,7 +32,7 @@
   font-size: 12px;
 }
 
-input.form-control, textarea.form-control, input.form-control:focus, textarea.form-control:focus {
+input.form-control, textarea.form-control, input.form-check-input,input.form-control:focus, textarea.form-control:focus {
   background-color: rgb(48, 53, 66);
   border: 1px solid black;
   color: #fff;
@@ -40,4 +40,20 @@ input.form-control, textarea.form-control, input.form-control:focus, textarea.fo
 
 .table {
   color: #fff;
+}
+
+.myform {
+  border: 1px solid black;
+  background-color: rgb(48, 53, 66);
+  border-radius: 10px;
+  color: #fff;
+}
+
+.brand {
+  font-size: 1.3rem;
+  margin-right: 2rem;
+  color: #fff;
+}
+.brand:hover {
+  color: #428cfa;
 }

@@ -15,6 +15,12 @@ use App\Http\Controllers\WordController;
 
 Route::get('/', [WordController::class, 'index'])->name('index');
 
-Route::get('/add', [WordController::class, 'create'])->name('create');
+Auth::routes();
 
-Route::post('/store', [WordController::class, 'store'])->name('store-word');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/add', [WordController::class, 'create'])->name('create');
+    Route::post('/store', [WordController::class, 'store'])->name('store-word');
+});

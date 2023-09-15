@@ -2,7 +2,6 @@
 @section('title', 'Słownik - dodawanie')
 @section('content')
 <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-    <a href="{{ route('index') }}" class="btn btn-primary mb-1">Wróć</a>
     <form method="POST" class="text-white is-invalid" action="{{ route('store-word') }}">
         @csrf
         <div class="form-group">
@@ -21,6 +20,7 @@
             <div id="tags-container"></div>   
         </div>
         <div class="form-group">
+            <a href="{{ route('index') }}" class="btn btn-secondary mt-3">Wróć</a>
             <button type="submit" class="btn btn-primary mt-3">Zapisz</button>
         </div>
         <input type="hidden" id="tags" name="tags">

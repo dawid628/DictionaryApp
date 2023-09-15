@@ -10,6 +10,9 @@
         <div class="align-items-center mb-3">
             <a href="{{ route('create') }}" class="btn btn-primary m-1">Dodaj słowo</a>
             <input type="text" id="filterInput" class="form-control" placeholder="Wyszukaj słowo lub tag">
+            @if(Auth::check())
+            elo
+            @endif
         </div>
         <table class="table text-center" id="wordsTable">
             <thead>
