@@ -71,19 +71,11 @@ function fillTable(data) {
         var row = $('<tr>');
         row.append('<td>' + word.name + '</td>');
 
-        var definitionCell = $('<td>').text(word.definition);
+        var definitionCell = $('<td>').html(formatDefinition(word.definition));
         row.append(definitionCell);
 
         if (word.tags && word.tags.length > 0) {
-            var tagsCell = $('<td>');
-            var formattedTags = '';
-
-            for (var i = 0; i < word.tags.length; i += 3) {
-                var tagChunk = word.tags.slice(i, i + 3).join(', ');
-                formattedTags += tagChunk + ', ';
-            }
-
-            tagsCell.text(formattedTags.slice(0, -2));
+            var tagsCell = $('<td>').html(formatTags(word.tags));
             row.append(tagsCell);
         } else {
             row.append('<td class="text-danger">brak</td>');
@@ -92,6 +84,33 @@ function fillTable(data) {
         row.append('<td>' + formatDateTime(word.created_at) + '</td>');
         tableBody.append(row);
     });
+}
+
+function formatDefinition(definition) {
+    var formattedDefinition = '';
+    for (var i = 0; i < definition.length; i++) {
+        formattedDefinition += definition[i];
+        if ((i + 1) % 30 == 0) {
+            formattedDefinition += '<br>';
+        }
+    }
+    return formattedDefinition;
+}
+
+function formatTags(tags) {
+    var tagsPerLine = 2;
+    var formattedTags = '';
+
+    for (var i = 0; i < tags.length; i++) {
+        formattedTags += tags[i];
+        if (i < tags.length - 1) {
+            formattedTags += ', ';
+        }
+        if ((i + 1) % tagsPerLine == 0 && i < tags.length - 1) {
+            formattedTags += '<br>';
+        }
+    }
+    return formattedTags;
 }
 
 function filterWords() {
